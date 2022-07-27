@@ -10,7 +10,6 @@ export default function Qustion(props){
                 result.push({
                     answer:selections[i].answer,
                     isSelected:true,
-                    isCorrect:selections[i].answer===selectedAnswer.isCorrect? true:false
                 })
             }else{
                 result.push({
@@ -24,16 +23,16 @@ export default function Qustion(props){
         setSelections(result)
     }
     const answerButtons = selections.map((answer)=>
-    <button className="question-button" 
-            style={
-            answer.isSelected===true ? {backgroundColor:"#E6E6FA"}:
-            answer.isCorrect === true && props.isCheckedAnswer ? {backgroundColor:"green"} :
-            answer.isCorrect === true && props.isCheckedAnswer === false ? {backgroundColor:"red"}  :
-            {backgroundColor:"white"}}
-            onClick={()=>handleClick(answer)}
-           >
-        {answer.answer}
-    </button>)
+        <button className="question-button" 
+                style={
+                    answer===props.correct ? {backgroundColor:"green"}:
+                    answer.isSelected===true ? {backgroundColor:"#E6E6FA"}:
+                    {backgroundColor:"white"}}
+                    onClick={()=>handleClick(answer)
+                    }>
+            {answer.answer}
+        </button>)
+
     return(
         <div>
             <h1 className = "question-header">{props.question}</h1>

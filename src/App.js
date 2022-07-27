@@ -20,7 +20,10 @@ export default function App(){
                     (data)=>
                     <Question 
                         question={data.question}
-                        answers={[data.correct_answer].concat(data.incorrect_answers).sort((a, b) => 0.5 - Math.random()).map(
+                        answers=
+                        
+                        {data.type==="boolean" ?  [{answer:"True",isSelected:false},{answer:"False",isSelected:false}]:
+                            [data.correct_answer].concat(data.incorrect_answers).sort((a, b) => 0.5 - Math.random()).map(
                             function(answer){
                                 return {
                                     answer:answer,
@@ -31,7 +34,7 @@ export default function App(){
                         correct={data.correct_answer}
                         type={data.type}
                         setQuestionData={setQuestionData}
-                        isCheckedAnswer={checkedAnswer}
+                        isChecked={checkedAnswer}
                     />)))
         
     },[])
@@ -48,7 +51,7 @@ export default function App(){
         }
         setCorrectCount(count)
         setCheckedAnswer(true)
-        console.log(count)
+        
     }
     function emptyQuestions(){
         setHomepage(true)
