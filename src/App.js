@@ -1,6 +1,8 @@
 import React from "react"
 import Homepage from "./components/Homepage"
 import Question from "./components/Question"
+import Login from "./components/Login"
+import useToken from "./useToken"
 
 export default function App(){
     const [homepage,setHomepage] = React.useState(true)
@@ -56,6 +58,11 @@ export default function App(){
     function emptyQuestions(){
         setHomepage(true)
         setCheckedAnswer(false)
+    }
+    const {token,setToken} = useToken();
+
+    if (!token){
+        return <Login setToken={setToken}/>
     }
     return(
         <div>
