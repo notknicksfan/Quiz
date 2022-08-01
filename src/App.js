@@ -3,12 +3,10 @@ import Homepage from "./components/Homepage"
 import Question from "./components/Question"
 import Login from "./components/Login"
 import useToken from "./useToken"
+import { BrowserRouter,Route,Routes } from "react-router-dom"
+
 
 export default function App(){
-    const [homepage,setHomepage] = React.useState(true)
-    function handleHomepage(){
-        setHomepage(false)
-    }
     const [questionData,setQuestionData] = React.useState()
     const [checkedAnswer,setCheckedAnswer] =React.useState(false)
     const [correctCount,setCorrectCount] = React.useState(0) 
@@ -36,11 +34,9 @@ export default function App(){
                         correct={data.correct_answer}
                         type={data.type}
                         setQuestionData={setQuestionData}
-                        isChecked={checkedAnswer}
+                        
                     />)))
-        
     },[])
-     
     function checkAnswers(){
         let count = 0
         for(let i = 0;i<questionData.length;i++){
@@ -53,10 +49,10 @@ export default function App(){
         }
         setCorrectCount(count)
         setCheckedAnswer(true)
+        console.log(correctCount,checkedAnswer)
         
     }
     function emptyQuestions(){
-        setHomepage(true)
         setCheckedAnswer(false)
     }
     const {token,setToken} = useToken();
@@ -66,17 +62,24 @@ export default function App(){
     }
     return(
         <div>
-            {homepage ? <Homepage handleHomepage={()=>handleHomepage()}/> : 
-            <div className = "app-questions">
-                {questionData}
-                {checkedAnswer===false ? <button className="app-check"onClick={checkAnswers}>Check answers</button>:""}
-                {checkedAnswer===true ? 
-                <div className="result">
-                    <h3 className="app-results">You scored {correctCount}/{questionData.length} correct answers</h3>
-                    <button className="app-playagain" onClick={emptyQuestions}>play again</button>
-                </div>
-                    : ""}
-            </div>}
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/home" element= {<Homepage/> }/>
+                    <Route path="/questions" element= {
+                        <div className = "app-questions">
+                            {questionData}
+                            {checkedAnswer===false ? <button className="app-check" onClick={checkAnswers}>Check answers</button>:""}
+                            {checkedAnswer===true ? 
+                            <div className="result">
+                                <h3 className="app-results">You scored {correctCount}/{questionData.length} correct answers</h3>
+                                <button className="app-playagain" onClick={emptyQuestions}>play again</button>
+                            </div>
+                                : ""}
+                        </div>}
+                    />
+                </Routes>
+            </BrowserRouter>
+            
         </div>
     )
 }
